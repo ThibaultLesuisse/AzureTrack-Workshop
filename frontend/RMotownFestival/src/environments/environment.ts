@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   festivalName: "RMotownFestival - DEV",
-  apiBaseUrl: "https://localhost:44395/api/"
+  apiBaseUrl: "https://rmotownfestivalapitl.azurewebsites.net/api"
 };
 
 /*
