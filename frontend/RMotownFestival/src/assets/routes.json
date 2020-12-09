@@ -1,16 +1,6 @@
 {
     "routes": [
       {
-        "route": "/pictures",
-        "serve": "/index.html/pictures",
-        "allowedRoles": ["anonymous"]
-      },
-      {
-        "route": "/upload",
-        "serve": "/index.html/upload",
-        "allowedRoles": ["anonymous"]
-      },
-      {
         "route": "/*",
         "serve": "/index.html",
         "allowedRoles": ["anonymous"],
