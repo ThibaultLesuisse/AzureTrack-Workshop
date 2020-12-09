@@ -1,0 +1,28 @@
+{
+    "routes": [
+      {
+        "route": "/pictures",
+        "serve": "/pictures"
+      },
+      {
+        "route": "/upload",
+        "serve": "/upload"
+      }],
+    "platformErrorOverrides": [
+      {
+        "errorType": "NotFound",
+        "serve": "/custom-404.html"
+      },
+      {
+        "errorType": "Unauthenticated",
+        "statusCode": "302",
+        "serve": "/login"
+      }
+    ],
+    "defaultHeaders": {
+      "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
+    },
+    "mimeTypes": {
+        "custom": "text/html"
+    }
+  }

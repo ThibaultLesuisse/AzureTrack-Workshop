@@ -30,7 +30,7 @@ namespace RMotownFestival.Api
             services.AddCors(options => {
                 options.AddPolicy(name: AngularFrontEndCorsPolicyName, builder =>
                 {
-                    builder.WithOrigins("https://localhost:4200", "https://calm-bay-06744b803.azurestaticapps.net")
+                    builder.WithOrigins("https://localhost:4200", "https://calm-bay-06744b803.azurestaticapps.net", "http://localhost:4200")
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });
@@ -38,9 +38,10 @@ namespace RMotownFestival.Api
             services.AddControllers();
             services.AddDbContext<MotownDbContext>(options => options.UseSqlServer(Configuration["connectionStrings:DefaultConnection"]));
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
-            services.AddSingleton(p => new StorageSharedKeyCredential(Configuration.GetValue<string>("Storage:AccountName"), Configuration.GetValue<string>(Configuration.GetValue<string>("Storage:AccountKey"))));
-            services.AddSingleton(p => new BlobServiceClient(Configuration.GetValue<string>("Storage:ConnetionString")));
+            services.AddSingleton(p => new StorageSharedKeyCredential(Configuration.GetValue<string>("Storage:AccountName"), Configuration.GetValue<string>("Storage:AccountKey")));
+            services.AddSingleton(p => new BlobServiceClient(Configuration.GetValue<string>("Storage:ConnectionString")));
             services.AddSingleton<BlobUtility>();
+            services.Configure<BlobOptions>(Configuration.GetSection("Storage"));
 
         }   
 
