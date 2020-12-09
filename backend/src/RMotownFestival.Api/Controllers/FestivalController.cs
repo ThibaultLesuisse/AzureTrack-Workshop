@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using RMotownFestival.Api.Data;
+using RMotownFestival.DAL;
+using RMotownFestival.Domain;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-
-using Microsoft.AspNetCore.Mvc;
-
-using RMotownFestival.Api.Data;
-using RMotownFestival.Api.Domain;
 
 namespace RMotownFestival.Api.Controllers
 {
@@ -13,6 +12,12 @@ namespace RMotownFestival.Api.Controllers
     [ApiController]
     public class FestivalController : ControllerBase
     {
+        private readonly MotownDbContext _context;
+
+        public FestivalController(MotownDbContext context)
+        {
+            _context = context ?? throw new System.ArgumentNullException(nameof(context));
+        }
         [HttpGet("LineUp")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Schedule))]
         public ActionResult GetLineUp()
@@ -22,17 +27,11 @@ namespace RMotownFestival.Api.Controllers
 
         [HttpGet("Artists")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Artist>))]
-        public ActionResult GetArtists()
-        {
-            return Ok(FestivalDataSource.Current.Artists);
-        }
+        public ActionResult GetArtists() => Ok(_context.Artists.ToArray());
 
         [HttpGet("Stages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Stage>))]
-        public ActionResult GetStages()
-        {
-            return Ok(FestivalDataSource.Current.Stages);
-        }
+        public ActionResult GetStages() => Ok(_context.Stages.ToArray());
 
         [HttpPost("Favorite")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ScheduleItem))]

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using RMotownFestival.Api.Domain;
+using RMotownFestival.Domain;
 
 namespace RMotownFestival.Api.Data
 {
