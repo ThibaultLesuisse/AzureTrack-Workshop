@@ -27,7 +27,8 @@ namespace RMotownFestival.Api
 
             services.AddCors();
             services.AddControllers();
-            services.AddDbContext<MotownDbContext>(options => options.UseSqlServer("Server=tcp:rmotownsqlservertl.database.windows.net,1433;Initial Catalog=rmotownfestivaltl;Persist Security Info=False;User ID=Thibault;Password=Thib%4li;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            services.AddDbContext<MotownDbContext>(options => options.UseSqlServer(Configuration["MotownFestivalSQLConnectionString"]));
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

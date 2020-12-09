@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>1cc31fc4-9ddf-4323-87b9-fdf12e04ccc6</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/008e9021-170e-45cf-880a-143bb5d82887/resourceGroups/AzureTrackLabTL/providers/microsoft.insights/components/AzureTrackMonitoringTL</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
