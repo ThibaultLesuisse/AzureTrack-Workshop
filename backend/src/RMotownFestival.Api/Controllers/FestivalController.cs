@@ -1,6 +1,5 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
-using RMotownFestival.Api.Data;
 using RMotownFestival.DAL;
 using RMotownFestival.Domain;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace RMotownFestival.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Schedule))]
         public ActionResult GetLineUp()
         {
-            return Ok(FestivalDataSource.Current.LineUp);
+            return Ok(_context.Stages.ToArray());
         }
 
         [HttpGet("Artists")]
@@ -52,8 +51,8 @@ namespace RMotownFestival.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public ActionResult SetAsFavorite(int id)
         {
-            var schedule = FestivalDataSource.Current.LineUp.Items
-                .FirstOrDefault(si => si.Id == id);
+            var schedule = _context.ScheduleItems.
+                FirstOrDefault(si =>  si.Id == id);
             if (schedule != null)
             {
                 schedule.IsFavorite = !schedule.IsFavorite;
