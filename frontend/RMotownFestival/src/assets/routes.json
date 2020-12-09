@@ -2,11 +2,11 @@
     "routes": [
       {
         "route": "/pictures",
-        "serve": "/pictures"
+        "serve": "./pictures"
       },
       {
         "route": "/upload",
-        "serve": "/upload"
+        "serve": "./upload"
       }],
     "platformErrorOverrides": [
       {
