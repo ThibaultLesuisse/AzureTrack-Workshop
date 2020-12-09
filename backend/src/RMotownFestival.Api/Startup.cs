@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ namespace RMotownFestival.Api
 {
     public class Startup
     {
+        readonly string AngularFrontEndCorsPolicyName = "AngularFront";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,7 +25,14 @@ namespace RMotownFestival.Api
         {
             services.Configure<AppSettingsOptions>(Configuration);
 
-            services.AddCors();
+            services.AddCors(options => {
+                options.AddPolicy(name: AngularFrontEndCorsPolicyName, builder =>
+                {
+                    builder.WithOrigins("https://localhost:4200", "https://calm-bay-06744b803.azurestaticapps.net")
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
             services.AddControllers();
             services.AddDbContext<MotownDbContext>(options => options.UseSqlServer(Configuration["MotownFestivalSQLConnectionString"]));
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
@@ -44,7 +51,7 @@ namespace RMotownFestival.Api
             app.UseRouting();
 
             // THIS IS NOT A SECURE CORS POLICY, DO NOT USE IN PRODUCTION
-            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(AngularFrontEndCorsPolicyName);
 
             app.UseAuthorization();
 

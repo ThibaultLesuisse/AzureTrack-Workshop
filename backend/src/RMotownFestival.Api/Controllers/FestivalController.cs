@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Mvc;
 using RMotownFestival.Api.Data;
 using RMotownFestival.DAL;
 using RMotownFestival.Domain;
@@ -13,10 +14,12 @@ namespace RMotownFestival.Api.Controllers
     public class FestivalController : ControllerBase
     {
         private readonly MotownDbContext _context;
+        private readonly TelemetryClient _telemetryClient;
 
-        public FestivalController(MotownDbContext context)
+        public FestivalController(MotownDbContext context, TelemetryClient telemetryClient)
         {
             _context = context ?? throw new System.ArgumentNullException(nameof(context));
+            _telemetryClient = telemetryClient ?? throw new System.ArgumentNullException(nameof(telemetryClient));
         }
         [HttpGet("LineUp")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Schedule))]
@@ -27,7 +30,18 @@ namespace RMotownFestival.Api.Controllers
 
         [HttpGet("Artists")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Artist>))]
-        public ActionResult GetArtists() => Ok(_context.Artists.ToArray());
+        public ActionResult GetArtists(bool? withRatings)
+        {
+            if(withRatings.HasValue && withRatings.Value)
+            {
+                _telemetryClient.TrackEvent("List of artists with rating");
+            }
+            else
+            {
+                _telemetryClient.TrackEvent("List of artists without rating");
+            }
+            return Ok(_context.Artists.ToArray());
+        }
 
         [HttpGet("Stages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Stage>))]
