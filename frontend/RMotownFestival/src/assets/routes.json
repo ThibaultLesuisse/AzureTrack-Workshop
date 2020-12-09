@@ -12,7 +12,8 @@
       },
       {
         "route": "/*",
-        "serve": "/index.html",
+        "serve": "/",
+        "allowedRoles": ["anonymous"],
         "statusCode": 200
       }],
     "platformErrorOverrides": [
